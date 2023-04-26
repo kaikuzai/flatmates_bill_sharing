@@ -15,8 +15,8 @@ class Flatmate():
         self.name = name 
         self.days_in_house = days_in_house
 
-    def pays(self, bill: str, flatmate_2):
-        weight = self.days_in_house / (self.days_in_house + flatmate_2.days_in_house)
+    def pays(self, bill, other_flatmate):
+        weight = self.days_in_house / (self.days_in_house + other_flatmate.days_in_house)
         return round(bill.amount *  weight, 2)  
 
 class PdfReport():
@@ -29,26 +29,34 @@ class PdfReport():
         pdf = FPDF(orientation='P', unit='pt', format='A4')
         pdf.add_page()
 
+        bill_flatmate_one = str(flatmate_1.pays(electricity, flatmate_2))
+        bill_flatmate_two = str(flatmate_2.pays(electricity, flatmate_1))
+
         # Set font style 
         pdf.set_font(family='Times', size=24, style='B')
 
         # header
         pdf.cell(w=0, h=80, txt='Flatmates bill', border=1, align='C', ln=1)
         pdf.cell(w=150, h=40, txt='Period', border=1, align='C')
-        pdf.cell(w=150, h=40, txt=bill.period, border=1, align='C', ln=1)
-        pdf.cell(w=0, h=40, txt='flatmates', border=1, align='C', ln=1)
-        pdf.cell(w=538.5, h=40, txt='Testing sizes', border=1, align='C', ln=1)
-
+        pdf.cell(w=388.5, h=40, txt=bill.period, border=1, align='C', ln=1)
+        pdf.cell(w=0, h=20, txt='flatmates', border=1, align='C', ln=1)
+        # pdf.cell(w=538.5, h=40, txt='Testing sizes', border=1, align='C', ln=1)
+        pdf.cell(w=150, h=40, txt='Name', border=1, align='C')
+        pdf.cell(w=388.5, h=40, txt='Total to pay', border=1, align='C', ln=1)
+        pdf.cell(w=150, h=40, txt=flatmate_1.name, border=1, align='C')
+        pdf.cell(w=388.5, h=40, txt=bill_flatmate_one, border=1, align='C', ln=1)
+        pdf.cell(w=150, h=40, txt=flatmate_2.name, border=1, align='C')
+        pdf.cell(w=388.5, h=40, txt=bill_flatmate_two, border=1, align='C', ln=1)
 
         pdf.output(f'{self.filename}.pdf')
  
 
-electricity = Bill(100, "January")
+electricity = Bill(100, "January 2023")
 
-flatmate_1 = Flatmate(name=9+6, days_in_house=80)
+flatmate_1 = Flatmate(name="Theodore", days_in_house=80)
 flatmate_2 = Flatmate(name="Angela", days_in_house=60)
 
-print(f"{flatmate_1.name} pays {flatmate_2.name} €{flatmate_1.pays(electricity, flatmate_2=flatmate_2)}")
+print(f"{flatmate_1.name} pays {flatmate_2.name} €{flatmate_1.pays(electricity, flatmate_2)}")
 
 pdf_report = PdfReport(electricity.period)
 pdf_report.generate(flatmate_1=flatmate_1, flatmate_2=flatmate_2, bill=electricity)
