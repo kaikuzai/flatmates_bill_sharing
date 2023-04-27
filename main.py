@@ -36,17 +36,24 @@ class PdfReport():
         pdf.set_font(family='Times', size=24, style='B')
 
         # header
-        pdf.cell(w=0, h=80, txt='Flatmates bill', border=1, align='C', ln=1)
-        pdf.cell(w=150, h=40, txt='Period', border=1, align='C')
-        pdf.cell(w=388.5, h=40, txt=bill.period, border=1, align='C', ln=1)
-        pdf.cell(w=0, h=20, txt='flatmates', border=1, align='C', ln=1)
-        # pdf.cell(w=538.5, h=40, txt='Testing sizes', border=1, align='C', ln=1)
-        pdf.cell(w=150, h=40, txt='Name', border=1, align='C')
-        pdf.cell(w=388.5, h=40, txt='Total to pay', border=1, align='C', ln=1)
-        pdf.cell(w=150, h=40, txt=flatmate_1.name, border=1, align='C')
-        pdf.cell(w=388.5, h=40, txt=bill_flatmate_one, border=1, align='C', ln=1)
-        pdf.cell(w=150, h=40, txt=flatmate_2.name, border=1, align='C')
-        pdf.cell(w=388.5, h=40, txt=bill_flatmate_two, border=1, align='C', ln=1)
+        pdf.cell(w=0, h=80, txt='Flatmates bill', align='C', ln=1)
+
+        # Period
+        pdf.set_font(family='Times', size=20)
+        pdf.cell(w=150, h=40, txt='Period', align='L')
+        pdf.cell(w=388.5, h=40, txt=bill.period, align='L', ln=1)
+        # pdf.cell(w=538.5, h=40, txt='Testing sizes', align='C', ln=1)
+        # Name and total headers 
+        pdf.set_font(family='Times', size= 14, style='B')
+        pdf.cell(w=150, h=40, txt='Name', align='L')
+        pdf.cell(w=388.5, h=40, txt='Total to pay', align='L', ln=1)
+
+        # Individual names
+        pdf.set_font(family='Times', size= 14)
+        pdf.cell(w=150, h=40, txt=flatmate_1.name, align='L')
+        pdf.cell(w=388.5, h=40, txt=bill_flatmate_one, align='L', ln=1)
+        pdf.cell(w=150, h=40, txt=flatmate_2.name, align='L')
+        pdf.cell(w=388.5, h=40, txt=bill_flatmate_two, align='L', ln=1)
 
         pdf.output(f'{self.filename}.pdf')
  
