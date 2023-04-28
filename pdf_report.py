@@ -37,4 +37,4 @@ class PdfReport():
         pdf.cell(w=150, h=40, txt=flatmate_2.name, align='L')
         pdf.cell(w=388.5, h=40, txt=bill_flatmate_two, align='L', ln=1)
 
-        pdf.output(f'{self.filename}.pdf')
+        pdf.output(f'output/{self.filename}.pdf')
